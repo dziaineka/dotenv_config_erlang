@@ -1,6 +1,6 @@
 {application, dotenv_config,
- [{description, "An OTP library"},
-  {vsn, "0.1.0"},
+ [{description, "Erlang apps config based on environment variables and .env files"},
+  {vsn, git},
   {registered, []},
   {applications,
    [kernel,
@@ -10,5 +10,5 @@
   {modules, []},
 
   {licenses, ["Apache-2.0"]},
-  {links, []}
+  {links, ["https://github.com/dziaineka/dotenv_config_erlang"]}
  ]}.
