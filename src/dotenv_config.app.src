@@ -1,14 +1,14 @@
-{application, dotenv_config,
- [{description, "Erlang apps config based on environment variables and .env files"},
-  {vsn, git},
-  {registered, []},
-  {applications,
-   [kernel,
-    stdlib
-   ]},
-  {env,[]},
-  {modules, []},
+{application, dotenv_config, [
+    {description, "Erlang apps config based on environment variables and .env files"},
+    {vsn, git},
+    {registered, []},
+    {applications, [
+        kernel,
+        stdlib
+    ]},
+    {env, []},
+    {modules, []},
 
-  {licenses, ["Apache-2.0"]},
-  {links, ["https://github.com/dziaineka/dotenv_config_erlang"]}
- ]}.
+    {licenses, ["Apache-2.0"]},
+    {links, ["https://github.com/dziaineka/dotenv_config_erlang"]}
+]}.
