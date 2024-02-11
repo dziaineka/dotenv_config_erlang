@@ -5,6 +5,7 @@
 -callback get_parser() -> parser().
 
 -export([parse_file/1, parse_config/2]).
+-export_type([parsed_config_file/0, parsed_config_file_raw/0]).
 
 -spec parse_file(file:name_all()) -> {ok, parsed_config_file_raw()} | {error, any()}.
 parse_file(FileName) ->

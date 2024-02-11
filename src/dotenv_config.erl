@@ -3,6 +3,7 @@
 -include("dotenv_config.hrl").
 
 -export([load_from_file/2, get/1, set/2]).
+-export_type([config_item_name/0, config_item_value/0]).
 
 -ignore_xref({load_from_file, 2}).
 -ignore_xref({get, 1}).

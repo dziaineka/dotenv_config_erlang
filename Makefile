@@ -9,3 +9,6 @@ xref:
 
 dialyzer:
 	rebar3 dialyzer
+
+lint:
+	rebar3 lint
