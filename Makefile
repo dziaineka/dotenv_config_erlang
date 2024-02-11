@@ -22,3 +22,6 @@ check: check_format xref lint dialyzer test
 
 docs:
 	rebar3 ex_doc
+
+publish:
+	rebar3 hex publish --repo hexpm
