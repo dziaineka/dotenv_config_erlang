@@ -9,6 +9,7 @@
     ]},
     {env, []},
     {modules, []},
+    {exclude_paths, ["test", "priv/dialyzer_plt"]},
     {licenses, ["Apache-2.0"]},
     {links, [{"GitHub", "https://github.com/dziaineka/dotenv_config_erlang"}]}
 ]}.
