@@ -4,6 +4,10 @@
 
 -export([load_from_file/2, get/1, set/2]).
 
+-ignore_xref({load_from_file, 2}).
+-ignore_xref({get, 1}).
+-ignore_xref({set, 2}).
+
 %%------------------------------------------------------------------------------
 %% @doc load_from_file/2
 %% Load configuration from .env file and store it in the persistent term storage.
