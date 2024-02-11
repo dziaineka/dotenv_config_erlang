@@ -1,6 +1,7 @@
 {application, dotenv_config, [
     {description, "Erlang apps config based on environment variables and .env files"},
     {vsn, "1.0.1"},
+    {pkg_name, "dotenv_config"},
     {registered, []},
     {applications, [
         kernel,
@@ -8,7 +9,6 @@
     ]},
     {env, []},
     {modules, []},
-
     {licenses, ["Apache-2.0"]},
-    {links, ["https://github.com/dziaineka/dotenv_config_erlang"]}
+    {links, [{"GitHub", "https://github.com/dziaineka/dotenv_config_erlang"}]}
 ]}.
