@@ -127,7 +127,7 @@ parse_config_item(ConfigItemRawValue, bool) ->
             error
     end;
 parse_config_item(ConfigItemRawValue, json) ->
-    try jiffy:decode(ConfigItemRawValue) of
+    try jiffy:decode(ConfigItemRawValue, [return_maps]) of
         JsonValue ->
             {ok, JsonValue}
     catch
@@ -156,4 +156,23 @@ parse_config_item(ConfigItemRawValue, module) ->
             error
     end;
 parse_config_item(ConfigItemRawValue, charlist) ->
-    {ok, binary_to_list(ConfigItemRawValue)}.
+    {ok, binary_to_list(ConfigItemRawValue)};
+parse_config_item(ConfigItemRawValue, [Type | Rest]) ->
+    case Type of
+        {exact, ExactValue} when ExactValue =:= ConfigItemRawValue ->
+            {ok, ExactValue};
+        SingleType when is_atom(SingleType) ->
+            parse_config_item(ConfigItemRawValue, SingleType);
+        {exact, _} ->
+            parse_config_item(ConfigItemRawValue, Rest)
+    end;
+parse_config_item(ConfigItemRawValue, ConvertFunction) when is_function(ConvertFunction) ->
+    try ConvertFunction(ConfigItemRawValue) of
+        ConfigItemValue ->
+            {ok, ConfigItemValue}
+    catch
+        _:_ ->
+            error
+    end;
+parse_config_item(_, _) ->
+    error.

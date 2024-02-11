@@ -15,5 +15,7 @@ get_parser() ->
         {<<"CHARLIST">>, charlist},
         {<<"SOME_LIST_MODE">>, [{exact, <<"allowlist">>}, {exact, <<"blocklist">>}]},
         {<<"SOME_CALL_TIMEOUT">>, [{exact, <<"infinity">>}, int]},
-        {<<"SOME_COMPLEX_TYPE">>, fun (RawValue) -> <<RawValue/binary, "_42">> end}
+        {<<"ANOTHER_CALL_TIMEOUT">>, [{exact, <<"infinity">>}, int]},
+        {<<"SOME_COMPLEX_TYPE">>, fun (RawValue) -> <<RawValue/binary, "_42">> end},
+        {<<"JSON_OBJECT">>, json}
     ].
