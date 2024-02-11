@@ -4,6 +4,10 @@
 
 -callback get_parser() -> parser().
 
+-ifdef(EUNIT).
+-compile(export_all).
+-endif.
+
 -export([parse_file/1, parse_config/2]).
 -export_type([parsed_config_file/0, parsed_config_file_raw/0]).
 
