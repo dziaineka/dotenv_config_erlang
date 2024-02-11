@@ -53,20 +53,22 @@ parse_config(Config, Module) ->
     ParsedConfig = lists:foldl(
         fun({ConfigItemName, Parser}, ParsedConfigAcc) ->
             DefaultValue = get_default_value(ConfigItemName),
+
             case maps:get(ConfigItemName, Config, DefaultValue) of
                 not_found ->
                     exit(<<"Can't find config item: ", ConfigItemName/binary>>);
                 already_stored ->
                     ParsedConfigAcc;
                 ConfigItemRawValue ->
-                    case parse_config_item(ConfigItemRawValue, Parser) of
+                    ConfigItemRawValue1 = maybe_trim_quotes(ConfigItemRawValue),
+                    case parse_config_item(ConfigItemRawValue1, Parser) of
                         {ok, ConfigItemValue} ->
                             [{ConfigItemName, ConfigItemValue} | ParsedConfigAcc];
                         error ->
                             BinParser = dotenv_config_error:to_binary(Parser),
                             exit(
                                 <<"Can't parse config item: ", ConfigItemName/binary, " of value: ",
-                                    ConfigItemRawValue/binary, " to type: ", BinParser/binary>>
+                                    ConfigItemRawValue1/binary, " to type: ", BinParser/binary>>
                             )
                     end
             end
@@ -75,6 +77,20 @@ parse_config(Config, Module) ->
         ConfigItemsParsers
     ),
     {ok, ParsedConfig}.
+
+-spec maybe_trim_quotes(config_item_raw_value()) -> config_item_raw_value().
+maybe_trim_quotes(ConfigItemRawValue) ->
+    LastByte = byte_size(ConfigItemRawValue) - 1,
+    case {binary:at(ConfigItemRawValue, 0), binary:at(ConfigItemRawValue, LastByte)} of
+        % double quotes
+        {34, 34} ->
+            string:trim(ConfigItemRawValue, both, "\"");
+        % single quotes
+        {39, 39} ->
+            string:trim(ConfigItemRawValue, both, "\'");
+        _ ->
+            ConfigItemRawValue
+    end.
 
 -spec get_default_value(config_item_name()) -> config_item_raw_value().
 get_default_value(ConfigItemName) ->
