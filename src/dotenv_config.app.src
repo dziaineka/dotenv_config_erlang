@@ -1,6 +1,6 @@
 {application, dotenv_config, [
     {description, "Erlang apps config based on environment variables and .env files"},
-    {vsn, git},
+    {vsn, "1.0.1"},
     {registered, []},
     {applications, [
         kernel,
