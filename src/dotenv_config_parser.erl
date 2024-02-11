@@ -65,9 +65,12 @@ parse_config(Config, Module) ->
 
     ParsedConfig = lists:foldl(
         fun({ConfigItemName, Parser}, ParsedConfigAcc) ->
-            case maps:get(ConfigItemName, Config, not_found) of
+            DefaultValue = get_default_value(ConfigItemName),
+            case maps:get(ConfigItemName, Config, DefaultValue) of
                 not_found ->
                     exit(<<"Can't find config item: ", ConfigItemName/binary>>);
+                already_stored ->
+                    ParsedConfigAcc;
                 ConfigItemRawValue ->
                     case parse_config_item(ConfigItemRawValue, Parser) of
                         {ok, ConfigItemValue} ->
@@ -85,6 +88,37 @@ parse_config(Config, Module) ->
         ConfigItemsParsers
     ),
     {ok, ParsedConfig}.
+
+-spec get_default_value(config_item_name()) -> config_item_raw_value().
+get_default_value(ConfigItemName) ->
+    MaybeEnvironmentValue = get_environment_variable(ConfigItemName),
+    IsAlreadyStored = is_value_already_stored(ConfigItemName),
+    case {MaybeEnvironmentValue, IsAlreadyStored} of
+        {not_found, false} ->
+            not_found;
+        {EnvironmentValue, false} ->
+            EnvironmentValue;
+        {_, true} ->
+            already_stored
+    end.
+
+-spec get_environment_variable(config_item_name()) -> config_item_raw_value() | not_found.
+get_environment_variable(ConfigItemName) ->
+    case os:getenv(binary_to_list(ConfigItemName)) of
+        false ->
+            not_found;
+        EnvironmentValue ->
+            list_to_binary(EnvironmentValue)
+    end.
+
+-spec is_value_already_stored(config_item_name()) -> boolean().
+is_value_already_stored(ConfigItemName) ->
+    case dotenv_config_storage:get(ConfigItemName) of
+        {error, not_found} ->
+            false;
+        _StoredValue ->
+            true
+    end.
 
 -spec parse_config_item(config_item_raw_value(), config_item_type()) ->
     {ok, config_item_value()} | error.
