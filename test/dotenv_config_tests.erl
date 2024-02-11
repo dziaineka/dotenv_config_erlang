@@ -29,3 +29,32 @@ init_test() ->
         }},
         dotenv_config:get(<<"JSON_OBJECT">>)
     ).
+
+get_all_test() ->
+    ok = dotenv_config:init(
+        parser_module_sample,
+        ["./test/data/init_test_part_1.env", "./test/data/init_test_part_2.env"]
+    ),
+    Expected = maps:from_list([
+        {<<"CLIENT_ID">>, <<"client_id_value">>},
+        {<<"PORT">>, 8080},
+        {<<"DEBUG">>, true},
+        {<<"NAMES">>, [<<"name1">>, <<"name2">>]},
+        {<<"LOG_LEVEL">>, debug},
+        {<<"CALLBACK_MODULE">>, dotenv_config},
+        {<<"CHARLIST">>, "abc"},
+        {<<"SOME_LIST_MODE">>, <<"allowlist">>},
+        {<<"SOME_CALL_TIMEOUT">>, <<"infinity">>},
+        {<<"ANOTHER_CALL_TIMEOUT">>, 5},
+        {<<"SOME_COMPLEX_TYPE">>, <<"im_a_complex_type_42">>},
+        {<<"JSON_OBJECT">>, #{
+            <<"key1">> => <<"value1">>,
+            <<"key2">> => true,
+            <<"key3">> => 123,
+            <<"key4">> => [1, 2, 3],
+            <<"key5">> => #{<<"key6">> => <<"value6">>},
+            <<"key7">> => null
+        }}
+    ]),
+    Actual = maps:from_list(dotenv_config:get_all()),
+    ?assertEqual(Expected, Actual).
