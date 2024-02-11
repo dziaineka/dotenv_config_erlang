@@ -6,7 +6,7 @@
 
 -export([parse_file/1, parse_config/2]).
 
--spec parse_file(file:name_all()) -> {ok, parsed_config_file_raw()} | {error, binary()}.
+-spec parse_file(file:name_all()) -> {ok, parsed_config_file_raw()} | {error, any()}.
 parse_file(FileName) ->
     case file:read_file(FileName) of
         {ok, FileContent} ->
@@ -15,7 +15,7 @@ parse_file(FileName) ->
             {error, Reason}
     end.
 
--spec parse_file_content(binary()) -> {ok, parsed_config_file_raw()} | {error, binary()}.
+-spec parse_file_content(binary()) -> {ok, parsed_config_file_raw()} | {error, any()}.
 parse_file_content(FileContent) ->
     Lines = binary:split(FileContent, <<"\n">>, [global, trim_all]),
     ParsedConfigFileRaw = lists:foldl(
@@ -41,8 +41,7 @@ parse_line(Line) ->
             error
     end.
 
--spec parse_config(parsed_config_file_raw(), module()) ->
-    {ok, parsed_config_file()} | {error, binary()}.
+-spec parse_config(parsed_config_file_raw(), module()) -> {ok, parsed_config_file()}.
 parse_config(Config, Module) ->
     ConfigItemsParsers = Module:get_parser(),
 
@@ -59,7 +58,7 @@ parse_config(Config, Module) ->
                         {ok, ConfigItemValue} ->
                             [{ConfigItemName, ConfigItemValue} | ParsedConfigAcc];
                         error ->
-                            BinParser = io_lib:format("~p", [Parser]),
+                            BinParser = dotenv_config_error:to_binary(Parser),
                             exit(
                                 <<"Can't parse config item: ", ConfigItemName/binary, " of value: ",
                                     ConfigItemRawValue/binary, " to type: ", BinParser/binary>>
@@ -109,8 +108,8 @@ parse_config_item(ConfigItemRawValue, str) ->
     {ok, ConfigItemRawValue};
 parse_config_item(ConfigItemRawValue, int) ->
     case string:to_integer(ConfigItemRawValue) of
-        {IntValue, _Rest} ->
-            {ok, IntValue};
+        {Value, _Rest} when is_integer(Value) ->
+            {ok, Value};
         _ ->
             error
     end;

@@ -6,3 +6,6 @@ check_format:
 
 xref:
 	rebar3 xref
+
+dialyzer:
+	rebar3 dialyzer

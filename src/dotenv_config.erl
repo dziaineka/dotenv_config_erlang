@@ -19,22 +19,16 @@
 %%   {error, Reason} - if there was an error during loading or storing
 %% @end
 %%------------------------------------------------------------------------------
--spec load_from_file(file:name_all(), module()) -> ok | {error, binary()}.
+-spec load_from_file(file:name_all(), module()) -> ok.
 load_from_file(FileName, Module) ->
-    % rewrite to maybe expr in 10 years. 2024-10-02
     case dotenv_config_parser:parse_file(FileName) of
         {ok, Config} ->
-            case dotenv_config_parser:parse_config(Config, Module) of
-                {ok, ParsedConfig} ->
-                    case dotenv_config_storage:store(ParsedConfig) of
-                        ok -> ok;
-                        {error, Reason} -> {error, Reason}
-                    end;
-                {error, Reason} ->
-                    {error, Reason}
-            end;
+            {ok, ParsedConfig} = dotenv_config_parser:parse_config(Config, Module),
+            dotenv_config_storage:store(ParsedConfig);
         {error, Reason} ->
-            {error, Reason}
+            BinReason = dotenv_config_error:to_binary(Reason),
+            BinFileName = dotenv_config_error:to_binary(FileName),
+            exit(<<"Can't read file ", BinFileName/binary, ": ", BinReason/binary>>)
     end.
 
 %%------------------------------------------------------------------------------
