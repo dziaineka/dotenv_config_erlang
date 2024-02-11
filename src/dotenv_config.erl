@@ -1,6 +1,8 @@
 -module(dotenv_config).
 
--export([load_from_file/2]).
+-include("dotenv_config.hrl").
+
+-export([load_from_file/2, get/1, set/2]).
 
 %%------------------------------------------------------------------------------
 %% @doc load_from_file/2
@@ -30,3 +32,21 @@ load_from_file(FileName, Module) ->
         {error, Reason} ->
             {error, Reason}
     end.
+
+%%------------------------------------------------------------------------------
+%% @doc get/1
+%% Get configuration item from the persistent term storage.
+%% @end
+%%------------------------------------------------------------------------------
+-spec get(config_item_name()) -> {ok, config_item_value()} | {error, not_found}.
+get(ConfigItemName) ->
+    dotenv_config_storage:get(ConfigItemName).
+
+%%------------------------------------------------------------------------------
+%% @doc set/2
+%% Set configuration item in the persistent term storage.
+%% @end
+%%------------------------------------------------------------------------------
+-spec set(config_item_name(), config_item_value()) -> ok.
+set(ConfigItemName, ConfigItemValue) ->
+    dotenv_config_storage:set(ConfigItemName, ConfigItemValue).
