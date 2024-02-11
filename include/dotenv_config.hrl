@@ -13,5 +13,5 @@
     | [exact_value() | simple_config_type()]
     | convert_function().
 
--type parsed_config_file_raw() :: #{config_item_name() => config_item_raw_value()}.
--type parsed_config_file() :: [{config_item_name(), config_item_value()}].
+-type parsed_config_raw() :: #{config_item_name() => config_item_raw_value()}.
+-type parsed_config() :: [{config_item_name(), config_item_value()}].

@@ -9,9 +9,9 @@
 -endif.
 
 -export([parse_file/1, parse_config/2]).
--export_type([parsed_config_file/0, parsed_config_file_raw/0]).
+-export_type([parsed_config/0, parsed_config_raw/0]).
 
--spec parse_file(file:name_all()) -> {ok, parsed_config_file_raw()} | {error, any()}.
+-spec parse_file(file:name_all()) -> {ok, parsed_config_raw()} | {error, any()}.
 parse_file(FileName) ->
     case file:read_file(FileName) of
         {ok, FileContent} ->
@@ -20,7 +20,7 @@ parse_file(FileName) ->
             {error, Reason}
     end.
 
--spec parse_file_content(binary()) -> {ok, parsed_config_file_raw()} | {error, any()}.
+-spec parse_file_content(binary()) -> {ok, parsed_config_raw()} | {error, any()}.
 parse_file_content(FileContent) ->
     Lines = binary:split(FileContent, <<"\n">>, [global, trim_all]),
     ParsedConfigFileRaw = lists:foldl(
@@ -46,7 +46,7 @@ parse_line(Line) ->
             error
     end.
 
--spec parse_config(parsed_config_file_raw(), module()) -> {ok, parsed_config_file()}.
+-spec parse_config(parsed_config_raw(), module()) -> {ok, parsed_config()}.
 parse_config(Config, Module) ->
     ConfigItemsParsers = Module:get_parser(),
 

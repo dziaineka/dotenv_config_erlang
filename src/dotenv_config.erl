@@ -2,12 +2,13 @@
 
 -include("dotenv_config.hrl").
 
--export([init/2, get/1, set/2]).
--export_type([config_item_name/0, config_item_value/0, parser/0]).
+-export([init/2, get/1, set/2, get_all/0]).
+-export_type([config_item_name/0, config_item_value/0, parser/0, parsed_config/0]).
 
 -ignore_xref({init, 2}).
 -ignore_xref({get, 1}).
 -ignore_xref({set, 2}).
+-ignore_xref({get_all, 0}).
 
 %%------------------------------------------------------------------------------
 %% @doc init/2
@@ -57,3 +58,12 @@ get(ConfigItemName) ->
 -spec set(config_item_name(), config_item_value()) -> ok.
 set(ConfigItemName, ConfigItemValue) ->
     dotenv_config_storage:set(ConfigItemName, ConfigItemValue).
+
+%%------------------------------------------------------------------------------
+%% @doc get_all/0
+%% Get all configuration items from the persistent term storage.
+%% @end
+%%------------------------------------------------------------------------------
+-spec get_all() -> parsed_config().
+get_all() ->
+    dotenv_config_storage:get_all().

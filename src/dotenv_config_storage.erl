@@ -6,10 +6,10 @@
 -compile(export_all).
 -endif.
 
--export([store/1, get/1, set/2]).
--export_type([config_item_name/0, config_item_value/0, parsed_config_file/0]).
+-export([store/1, get/1, set/2, get_all/0]).
+-export_type([config_item_name/0, config_item_value/0, parsed_config/0]).
 
--spec store(parsed_config_file()) -> ok.
+-spec store(parsed_config()) -> ok.
 store(Config) ->
     lists:foreach(
         fun({ConfigItemName, ConfigItemValue}) ->
@@ -30,3 +30,16 @@ get(ConfigItemName) ->
 -spec set(config_item_name(), config_item_value()) -> ok.
 set(ConfigItemName, ConfigItemValue) ->
     persistent_term:put({?MODULE, ConfigItemName}, ConfigItemValue).
+
+-spec get_all() -> parsed_config().
+get_all() ->
+    AllItems = persistent_term:get(),
+    lists:filtermap(
+        fun
+            ({{?MODULE, Key}, Value}) ->
+                {true, {Key, Value}};
+            (_) ->
+                false
+        end,
+        AllItems
+    ).
