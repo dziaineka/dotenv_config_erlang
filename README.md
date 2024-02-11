@@ -4,10 +4,10 @@ Erlang apps config based on environment variables and .env files
 
 ## Usage
 
-At the start of your application, load the .env files one by one (later files will overwrite the previous ones values).
+At the start of your application, load the .env files (later files will overwrite the previous ones values).
 
 ```erlang
-dotenv_config:load_from_file("path/to/.env", parser_module).
+dotenv_config:init(parser_module, ["path/to/.env"]).
 ```
 
 `parser_module` is a module that implements the `dotenv_config_parser` behaviour. It should have a `get_parser/0` function that returns a list of

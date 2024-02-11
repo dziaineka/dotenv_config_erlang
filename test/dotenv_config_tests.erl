@@ -2,9 +2,10 @@
 
 -include_lib("eunit/include/eunit.hrl").
 
-load_from_file_test() ->
-    ok = dotenv_config:load_from_file(
-        "./test/data/load_from_file_test.env", parser_module_sample
+init_test() ->
+    ok = dotenv_config:init(
+        parser_module_sample,
+        ["./test/data/init_test_part_1.env", "./test/data/init_test_part_2.env"]
     ),
     ?assertEqual({ok, <<"client_id_value">>}, dotenv_config:get(<<"CLIENT_ID">>)),
     ?assertEqual({ok, 8080}, dotenv_config:get(<<"PORT">>)),
