@@ -12,3 +12,5 @@ dialyzer:
 
 lint:
 	rebar3 lint
+
+check: check_format xref lint dialyzer
