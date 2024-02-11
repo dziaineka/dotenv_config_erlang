@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.30.7">
+    <meta name="project" content="dotenv_config v1.0.0">
+
+    <title>Dotenv Config — dotenv_config v1.0.0</title>
+    <link rel="stylesheet" href="dist/html-erlang-BDSMJ657.css" />
+
+
+    <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
+    <script src="dist/handlebars.templates-EPF2X7PV.js"></script>
+    <script src="dist/sidebar_items-4F98E471.js"></script>
+
+      <script src="docs_config.js"></script>
+
+    <script async src="dist/html-J2ASZTQE.js"></script>
+
+
+  </head>
+  <body data-type="extras" class="page-extra">
+    <script>
+
+      try {
+        var settings = JSON.parse(localStorage.getItem('ex_doc:settings') || '{}');
+
+        if (settings.theme === 'dark' ||
+           ((settings.theme === 'system' || settings.theme == null) &&
+             window.matchMedia('(prefers-color-scheme: dark)').matches)
+           ) {
+          document.body.classList.add('dark')
+        }
+      } catch (error) { }
+    </script>
+
+<div class="main">
+
+<button class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<nav id="sidebar" class="sidebar">
+  <form class="sidebar-search" action="search.html">
+    <label class="search-label">
+      <span class="sr-only">Search documentation of dotenv_config</span>
+      <input name="q" type="text" class="search-input" placeholder="Search..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+    </label>
+    <button type="submit" class="search-button" aria-label="Submit Search">
+      <i class="ri-search-2-line" aria-hidden="true" title="Submit search"></i>
+    </button>
+    <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+      <i class="ri-close-line ri-lg" title="Cancel search"></i>
+    </button>
+  </form>
+
+  <div class="autocomplete">
+    <div class="autocomplete-results">
+    </div>
+  </div>
+
+  <div class="sidebar-header">
+
+    <div class="sidebar-projectDetails">
+      <a href="readme.html" class="sidebar-projectName" translate="no">
+dotenv_config
+      </a>
+      <div class="sidebar-projectVersion" translate="no">
+        v1.0.0
+      </div>
+    </div>
+    <ul id="sidebar-listNav" class="sidebar-listNav" role="tablist">
+      <li>
+        <button id="extras-list-tab-button" role="tab" data-type="extras" aria-controls="extras-tab-panel" aria-selected="true" tabindex="0">
+Pages
+        </button>
+      </li>
+
+        <li>
+          <button id="modules-list-tab-button" role="tab" data-type="modules" aria-controls="modules-tab-panel" aria-selected="false" tabindex="-1">
+            Modules
+          </button>
+        </li>
+
+
+    </ul>
+  </div>
+
+  <div id="extras-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="extras-list-tab-button">
+    <ul id="extras-full-list" class="full-list"></ul>
+  </div>
+
+    <div id="modules-tab-panel" class="sidebar-tabpanel" role="tabpanel" aria-labelledby="modules-list-tab-button" hidden>
+      <ul id="modules-full-list" class="full-list"></ul>
+    </div>
+
+
+</nav>
+
+<main class="content">
+  <output role="status" id="toast"></output>
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+<h1>
+<button class="icon-action display-settings">
+  <i class="ri-settings-3-line"></i>
+  <span class="sr-only">Settings</span>
+</button>
+
+
+    <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v1.0.0/README.md#L1" title="View Source" class="icon-action" rel="help">
+      <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+      <span class="sr-only">View Source</span>
+    </a>
+
+
+  <span>Dotenv Config</span>
+</h1>
+
+<p>Erlang apps config based on environment variables and .env files</p><h2 id="usage" class="section-heading">
+  <a href="#usage" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text">Usage</span>
+</h2>
+<p>At the start of your application, load the .env files (later files will overwrite the previous ones values).</p><pre><code class="makeup erlang" translate="no"><span class="nc">dotenv_config</span><span class="p">:</span><span class="nf">init</span><span class="p" data-group-id="7277999414-1">(</span><span class="ss">parser_module</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="7277999414-2">[</span><span class="s">&quot;path/to/.env&quot;</span><span class="p" data-group-id="7277999414-2">]</span><span class="p" data-group-id="7277999414-1">)</span><span class="p">.</span></code></pre><p><code class="inline">parser_module</code> is a module that implements the <a href="dotenv_config_parser.html"><code class="inline">dotenv_config_parser</code></a> behaviour. It should have a <code class="inline">get_parser/0</code> function that returns a list of
+<code class="inline">{ConfigItemName, ConfigItemType}</code> tuples. See the <code class="inline">parser_module</code> example below.</p><p>Get the config value:</p><pre><code class="makeup erlang" translate="no"><span class="nc">dotenv_config</span><span class="p">:</span><span class="nf">get</span><span class="p" data-group-id="7751528921-1">(</span><span class="p">&lt;&lt;</span><span class="s">&quot;CLIENT_ID&quot;</span><span class="p">&gt;&gt;</span><span class="p" data-group-id="7751528921-1">)</span><span class="p">.</span></code></pre><p>Set the config value:</p><pre><code class="makeup erlang" translate="no"><span class="nc">dotenv_config</span><span class="p">:</span><span class="nf">set</span><span class="p" data-group-id="5171653566-1">(</span><span class="p">&lt;&lt;</span><span class="s">&quot;CLIENT_ID&quot;</span><span class="p">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="p">&lt;&lt;</span><span class="s">&quot;new_client_id&quot;</span><span class="p">&gt;&gt;</span><span class="p" data-group-id="5171653566-1">)</span><span class="p">.</span></code></pre><p>Get all the config values:</p><pre><code class="makeup erlang" translate="no"><span class="nc">dotenv_config</span><span class="p">:</span><span class="nf">get_all</span><span class="p" data-group-id="3965843950-1">(</span><span class="p" data-group-id="3965843950-1">)</span><span class="p">.</span></code></pre><h2 id="parser_module-example" class="section-heading">
+  <a href="#parser_module-example" class="hover-link">
+    <i class="ri-link-m" aria-hidden="true"></i>
+  </a>
+  <span class="text"><code class="inline">parser_module</code> example</span>
+</h2>
+<pre><code class="makeup erlang" translate="no"><span class="p">-</span><span class="na">module</span><span class="p" data-group-id="3455362524-1">(</span><span class="ss">client_config_example</span><span class="p" data-group-id="3455362524-1">)</span><span class="p">.</span><span class="w">
+</span><span class="p">-</span><span class="na">behaviour</span><span class="p" data-group-id="3455362524-2">(</span><span class="ss">dotenv_config_parser</span><span class="p" data-group-id="3455362524-2">)</span><span class="p">.</span><span class="w">
+</span><span class="w">
+</span><span class="p">-</span><span class="na">export</span><span class="p" data-group-id="3455362524-3">(</span><span class="p" data-group-id="3455362524-4">[</span><span class="ss">get_parser</span><span class="p">/</span><span class="mi">0</span><span class="p" data-group-id="3455362524-4">]</span><span class="p" data-group-id="3455362524-3">)</span><span class="p">.</span><span class="w">
+
+</span><span class="nf">get_parser</span><span class="p" data-group-id="3455362524-5">(</span><span class="p" data-group-id="3455362524-5">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w">
+    </span><span class="p" data-group-id="3455362524-6">[</span><span class="w">
+        </span><span class="p" data-group-id="3455362524-7">{</span><span class="p">&lt;&lt;</span><span class="s">&quot;CLIENT_ID&quot;</span><span class="p">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="ss">str</span><span class="p" data-group-id="3455362524-7">}</span><span class="p">,</span><span class="w">
+        </span><span class="p" data-group-id="3455362524-8">{</span><span class="p">&lt;&lt;</span><span class="s">&quot;PORT&quot;</span><span class="p">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="ss">int</span><span class="p" data-group-id="3455362524-8">}</span><span class="p">,</span><span class="w">
+        </span><span class="p" data-group-id="3455362524-9">{</span><span class="p">&lt;&lt;</span><span class="s">&quot;DEBUG&quot;</span><span class="p">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="ss">bool</span><span class="p" data-group-id="3455362524-9">}</span><span class="p">,</span><span class="w">
+        </span><span class="p" data-group-id="3455362524-10">{</span><span class="p">&lt;&lt;</span><span class="s">&quot;NAMES&quot;</span><span class="p">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="ss">json</span><span class="p" data-group-id="3455362524-10">}</span><span class="p">,</span><span class="w">
+        </span><span class="p" data-group-id="3455362524-11">{</span><span class="p">&lt;&lt;</span><span class="s">&quot;LOG_LEVEL&quot;</span><span class="p">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="ss">atom</span><span class="p" data-group-id="3455362524-11">}</span><span class="p">,</span><span class="w">
+        </span><span class="p" data-group-id="3455362524-12">{</span><span class="p">&lt;&lt;</span><span class="s">&quot;CALLBACK_MODULE&quot;</span><span class="p">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="ss">module</span><span class="p" data-group-id="3455362524-12">}</span><span class="p">,</span><span class="w">
+        </span><span class="p" data-group-id="3455362524-13">{</span><span class="p">&lt;&lt;</span><span class="s">&quot;CHARLIST&quot;</span><span class="p">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="ss">charlist</span><span class="p" data-group-id="3455362524-13">}</span><span class="p">,</span><span class="w">
+        </span><span class="p" data-group-id="3455362524-14">{</span><span class="p">&lt;&lt;</span><span class="s">&quot;SOME_LIST_MODE&quot;</span><span class="p">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3455362524-15">[</span><span class="p" data-group-id="3455362524-16">{</span><span class="ss">exact</span><span class="p">,</span><span class="w"> </span><span class="p">&lt;&lt;</span><span class="s">&quot;allowlist&quot;</span><span class="p">&gt;&gt;</span><span class="p" data-group-id="3455362524-16">}</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3455362524-17">{</span><span class="ss">exact</span><span class="p">,</span><span class="w"> </span><span class="p">&lt;&lt;</span><span class="s">&quot;blocklist&quot;</span><span class="p">&gt;&gt;</span><span class="p" data-group-id="3455362524-17">}</span><span class="p" data-group-id="3455362524-15">]</span><span class="p" data-group-id="3455362524-14">}</span><span class="p">,</span><span class="w">
+        </span><span class="p" data-group-id="3455362524-18">{</span><span class="p">&lt;&lt;</span><span class="s">&quot;SOME_CALL_TIMEOUT&quot;</span><span class="p">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="p" data-group-id="3455362524-19">[</span><span class="p" data-group-id="3455362524-20">{</span><span class="ss">exact</span><span class="p">,</span><span class="w"> </span><span class="p">&lt;&lt;</span><span class="s">&quot;infinity&quot;</span><span class="p">&gt;&gt;</span><span class="p" data-group-id="3455362524-20">}</span><span class="p">,</span><span class="w"> </span><span class="ss">int</span><span class="p" data-group-id="3455362524-19">]</span><span class="p" data-group-id="3455362524-18">}</span><span class="p">,</span><span class="w">
+        </span><span class="p" data-group-id="3455362524-21">{</span><span class="p">&lt;&lt;</span><span class="s">&quot;SOME_COMPLEX_TYPE&quot;</span><span class="p">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="nf">fun</span><span class="w"> </span><span class="p" data-group-id="3455362524-22">(</span><span class="n">RawValue</span><span class="p" data-group-id="3455362524-22">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">&lt;&lt;</span><span class="n">RawValue</span><span class="o">/</span><span class="ss">binary</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;_42&quot;</span><span class="p">&gt;&gt;</span><span class="w"> </span><span class="k">end</span><span class="p" data-group-id="3455362524-21">}</span><span class="w">
+    </span><span class="p" data-group-id="3455362524-6">]</span><span class="p">.</span></code></pre><p><code class="inline">json</code> type would be parsed to list or map using <code class="inline">jiffy:decode(RawValue, [return_maps]).</code></p><p><code class="inline">module</code> type would be checked for existence.</p>
+<div class="bottom-actions">
+  <div class="bottom-actions-item">
+
+      <a href="api-reference.html" class="bottom-actions-button" rel="prev">
+        <span class="subheader">
+          ← Previous Page
+        </span>
+        <span class="title">
+API Reference
+        </span>
+      </a>
+
+  </div>
+  <div class="bottom-actions-item">
+
+      <a href="license.html" class="bottom-actions-button" rel="next">
+        <span class="subheader">
+          Next Page →
+        </span>
+        <span class="title">
+LICENSE
+        </span>
+      </a>
+
+  </div>
+</div>
+      <footer class="footer">
+        <p>
+
+            <span class="line">
+              <a href="https://hex.pm/packages/dotenv_config/1.0.0" class="footer-hex-package">Hex Package</a>
+
+              <a href="https://preview.hex.pm/preview/dotenv_config/1.0.0">Hex Preview</a>
+
+                (<a href="https://preview.hex.pm/preview/dotenv_config/1.0.0/show/README.md">current file</a>)
+
+            </span>
+
+          <span class="line">
+            <button class="a-main footer-button display-quick-switch" title="Search HexDocs packages">
+              Search HexDocs
+            </button>
+
+              <a href="dotenv_config.epub" title="ePub version">
+                Download ePub version
+              </a>
+
+          </span>
+        </p>
+
+        <p class="built-using">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener" translate="no">ExDoc</a> (v0.30.7) for the
+
+            <a href="https://erlang.org" title="Erlang" target="_blank" translate="no">Erlang programming language</a>
+
+        </p>
+      </footer>
+    </div>
+  </div>
+</main>
+</div>
+
+
+  </body>
+</html>

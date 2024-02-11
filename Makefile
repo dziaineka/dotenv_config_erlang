@@ -1,4 +1,4 @@
-.PHONY: format check_format xref dialyzer lint test check
+.PHONY: format check_format xref dialyzer lint test check docs
 
 format:
 	rebar3 fmt
@@ -19,3 +19,6 @@ test:
 	rebar3 eunit
 
 check: check_format xref lint dialyzer test
+
+docs:
+	rebar3 ex_doc

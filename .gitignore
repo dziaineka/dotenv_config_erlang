@@ -19,3 +19,4 @@ logs
 rebar3.crashdump
 *~
 priv/dialyzer_plt
+.DS_Store
