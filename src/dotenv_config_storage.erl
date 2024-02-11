@@ -2,6 +2,10 @@
 
 -include("dotenv_config.hrl").
 
+-ifdef(EUNIT).
+-compile(export_all).
+-endif.
+
 -export([store/1, get/1, set/2]).
 -export_type([config_item_name/0, config_item_value/0, parsed_config_file/0]).
 
