@@ -58,3 +58,15 @@ get_all_test() ->
     ]),
     Actual = maps:from_list(dotenv_config:get_all()),
     ?assertEqual(Expected, Actual).
+
+env_variable_replaces_value_from_dotenv_test() ->
+    SetEnvVarName = <<"VALUE_TO_OVERRIDE">>,
+    SetEnvVarValue = <<"override_from_env_variables">>,
+    os:putenv(binary_to_list(SetEnvVarName), binary_to_list(SetEnvVarValue)),
+
+    ok = dotenv_config:init(
+        parser_test_env_vars_supremacy,
+        ["./test/data/test_env_vars_supremacy.env"]
+    ),
+    ?assertEqual({ok, <<"override_from_env_variables">>}, dotenv_config:get(<<"VALUE_TO_OVERRIDE">>)),
+    ?assertEqual({ok, 8080}, dotenv_config:get(<<"PORT">>)).

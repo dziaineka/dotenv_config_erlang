@@ -52,9 +52,9 @@ parse_config(Config, Module) ->
 
     ParsedConfig = lists:foldl(
         fun({ConfigItemName, Parser}, ParsedConfigAcc) ->
-            DefaultValue = get_default_value(ConfigItemName),
+            DefaultValue = get_default_value(Config, ConfigItemName),
 
-            case maps:get(ConfigItemName, Config, DefaultValue) of
+            case get_environment_variable(ConfigItemName, DefaultValue) of
                 not_found ->
                     exit(<<"Can't find config item: ", ConfigItemName/binary>>);
                 already_stored ->
@@ -92,24 +92,27 @@ maybe_trim_quotes(ConfigItemRawValue) ->
             ConfigItemRawValue
     end.
 
--spec get_default_value(config_item_name()) -> config_item_raw_value().
-get_default_value(ConfigItemName) ->
-    MaybeEnvironmentValue = get_environment_variable(ConfigItemName),
+-spec get_default_value(parsed_config_raw(), config_item_name()) ->
+    config_item_raw_value() | not_found | already_stored.
+get_default_value(Config, ConfigItemName) ->
+    MaybeValueFromConfig = maps:get(ConfigItemName, Config, not_found),
     IsAlreadyStored = is_value_already_stored(ConfigItemName),
-    case {MaybeEnvironmentValue, IsAlreadyStored} of
+    case {MaybeValueFromConfig, IsAlreadyStored} of
         {not_found, false} ->
             not_found;
-        {EnvironmentValue, false} ->
-            EnvironmentValue;
-        {_, true} ->
-            already_stored
+        {not_found, true} ->
+            already_stored;
+        {ValueFromConfig, _} ->
+            ValueFromConfig
     end.
 
--spec get_environment_variable(config_item_name()) -> config_item_raw_value() | not_found.
-get_environment_variable(ConfigItemName) ->
+-spec get_environment_variable(
+    config_item_name(), config_item_raw_value() | not_found | already_stored
+) -> config_item_raw_value() | not_found | already_stored.
+get_environment_variable(ConfigItemName, Default) ->
     case os:getenv(binary_to_list(ConfigItemName)) of
         false ->
-            not_found;
+            Default;
         EnvironmentValue ->
             list_to_binary(EnvironmentValue)
     end.

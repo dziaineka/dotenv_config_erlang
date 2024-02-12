@@ -24,11 +24,36 @@ parse_config_test() ->
 
 get_default_value_test() ->
     ConfigItemName = <<"KEY">>,
-    ?assertEqual(not_found, dotenv_config_parser:get_default_value(ConfigItemName)).
+    Config = #{<<"KEY">> => <<"VALUE">>},
+    ?assertEqual(<<"VALUE">>, dotenv_config_parser:get_default_value(Config, ConfigItemName)),
+
+    ConfigItemNameNotFound = <<"NON_EXISTENT_KEY">>,
+    ?assertEqual(not_found, dotenv_config_parser:get_default_value(Config, ConfigItemNameNotFound)),
+
+    ConfigItemNameStored = <<"STORED_KEY">>,
+    dotenv_config:set(ConfigItemNameStored, <<"STORED_VALUE">>),
+    ?assertEqual(
+        already_stored, dotenv_config_parser:get_default_value(Config, ConfigItemNameStored)
+    ).
 
 get_environment_variable_test() ->
     ConfigItemName = <<"PATH">>,
-    ?assertNotEqual(not_found, dotenv_config_parser:get_environment_variable(ConfigItemName)).
+    Default = not_found,
+    ?assertNotEqual(
+        Default, dotenv_config_parser:get_environment_variable(ConfigItemName, Default)
+    ),
+
+    NonExistentConfigItemName = <<"NON_EXISTENT_ENV_VAR">>,
+    ?assertEqual(
+        Default, dotenv_config_parser:get_environment_variable(NonExistentConfigItemName, Default)
+    ),
+
+    SetEnvVarName = <<"TEST_ENV_VAR">>,
+    SetEnvVarValue = <<"TEST_VALUE">>,
+    os:putenv(binary_to_list(SetEnvVarName), binary_to_list(SetEnvVarValue)),
+    ?assertEqual(
+        SetEnvVarValue, dotenv_config_parser:get_environment_variable(SetEnvVarName, Default)
+    ).
 
 is_value_already_stored_test() ->
     ConfigItemName = <<"KEY">>,
