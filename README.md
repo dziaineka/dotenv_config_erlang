@@ -1,6 +1,6 @@
 # Dotenv Config
 
-Erlang apps config based on environment variables and .env files
+Erlang/Elixir apps config based on environment variables and .env files
 
 ## Usage
 

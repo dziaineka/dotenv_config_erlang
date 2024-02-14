@@ -1,5 +1,5 @@
 {application, dotenv_config, [
-    {description, "Erlang apps config based on environment variables and .env files"},
+    {description, "Erlang/Elixir apps config based on environment variables and .env files"},
     {vsn, "1.1.0"},
     {pkg_name, "dotenv_config"},
     {registered, []},
