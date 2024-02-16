@@ -10,11 +10,20 @@ parse_file_content_test() ->
     {ok, Parsed} = dotenv_config_parser:parse_file_content(FileContent),
     ?assertEqual(#{<<"KEY">> => <<"VALUE">>}, Parsed).
 
-parse_line_test() ->
+parse_single_line_test() ->
     Line = <<"KEY=VALUE">>,
-    {ok, {Key, Value}} = dotenv_config_parser:parse_line(Line),
+    {ok, {Key, Value}} = dotenv_config_parser:parse_single_line(Line),
     ?assertEqual(<<"KEY">>, Key),
     ?assertEqual(<<"VALUE">>, Value).
+
+parse_multi_line_test() ->
+    Line = <<"\"\"\"">>,
+    ParsedHead = <<"HEAD">>,
+    {ok, end_multi_line} = dotenv_config_parser:parse_multi_line(Line, ParsedHead),
+
+    Line1 = <<"LINE1">>,
+    {ok, ParsedHead1} = dotenv_config_parser:parse_multi_line(Line1, ParsedHead),
+    ?assertEqual(<<ParsedHead/binary, "\n", Line1/binary>>, ParsedHead1).
 
 parse_config_test() ->
     Config = #{<<"CLIENT_ID">> => <<"VALUE">>},

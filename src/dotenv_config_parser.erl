@@ -23,23 +23,50 @@ parse_file(FileName) ->
 -spec parse_file_content(binary()) -> {ok, parsed_config_raw()} | {error, any()}.
 parse_file_content(FileContent) ->
     Lines = binary:split(FileContent, <<"\n">>, [global, trim_all]),
-    ParsedConfigFileRaw = lists:foldl(
-        fun(Line, ParsedLines) ->
-            case parse_line(Line) of
-                {ok, {ConfigItemName, ConfigItemRawValue}} ->
-                    maps:put(ConfigItemName, ConfigItemRawValue, ParsedLines);
-                error ->
-                    exit(<<"Can't parse this line from doteenv config: ", Line/binary>>)
-            end
+    {_, ParsedConfigFileRaw} = lists:foldl(
+        fun
+            (Line, {{multi_line, {ConfigItemName, ParsedHead}}, ParsedLines}) ->
+                case parse_multi_line(Line, ParsedHead) of
+                    {ok, end_multi_line} ->
+                        {single_line, maps:put(ConfigItemName, ParsedHead, ParsedLines)};
+                    {ok, ParsedHead1} ->
+                        {{multi_line, {ConfigItemName, ParsedHead1}}, ParsedLines}
+                end;
+            (Line, {single_line, ParsedLines}) ->
+                case parse_single_line(Line) of
+                    {ok, {ConfigItemName, multi_line_start}} ->
+                        {{multi_line, {ConfigItemName, <<>>}}, ParsedLines};
+                    {ok, {ConfigItemName, ConfigItemRawValue}} ->
+                        {single_line, maps:put(ConfigItemName, ConfigItemRawValue, ParsedLines)};
+                    error ->
+                        exit(<<"Can't parse this line from doteenv config: ", Line/binary>>)
+                end
         end,
-        #{},
+        {single_line, #{}},
         Lines
     ),
     {ok, ParsedConfigFileRaw}.
 
--spec parse_line(binary()) -> {ok, {config_item_name(), config_item_raw_value()}} | error.
-parse_line(Line) ->
+-spec parse_multi_line(binary(), config_item_raw_value()) ->
+    {ok, config_item_raw_value()} | {ok, end_multi_line}.
+parse_multi_line(Line, ParsedHead) ->
+    case {ParsedHead, string:trim(Line)} of
+        {_, <<"\"\"\"">>} ->
+            {ok, end_multi_line};
+        {<<>>, _} ->
+            {ok, <<Line/binary>>};
+        {ParsedHead, _} ->
+            {ok, <<ParsedHead/binary, "\n", Line/binary>>}
+    end.
+
+-spec parse_single_line(binary()) ->
+    {ok, {config_item_name(), config_item_raw_value()}}
+    | {ok, {config_item_name(), multi_line_start}}
+    | error.
+parse_single_line(Line) ->
     case binary:split(Line, <<"=">>, [trim_all]) of
+        [Key, <<"\"\"\"">>] ->
+            {ok, {string:trim(Key), multi_line_start}};
         [Key, Value] ->
             {ok, {string:trim(Key), string:trim(Value)}};
         _ ->

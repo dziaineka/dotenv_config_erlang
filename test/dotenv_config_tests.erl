@@ -3,6 +3,8 @@
 -include_lib("eunit/include/eunit.hrl").
 
 init_test() ->
+    test_helper:clear_persistent_term(),
+
     ok = dotenv_config:init(
         parser_module_sample,
         ["./test/data/init_test_part_1.env", "./test/data/init_test_part_2.env"]
@@ -30,7 +32,25 @@ init_test() ->
         dotenv_config:get(<<"JSON_OBJECT">>)
     ).
 
+init_multiline_test() ->
+    test_helper:clear_persistent_term(),
+
+    ok = dotenv_config:init(
+        parser_module_multiline,
+        ["./test/data/init_test_multiline.env"]
+    ),
+    ?assertEqual(
+        {ok, <<"singleline_value">>},
+        dotenv_config:get(<<"SINGLELINE">>)
+    ),
+    ?assertEqual(
+        {ok, <<"line1\n  line2\nline3    line4">>},
+        dotenv_config:get(<<"MULTILINE">>)
+    ).
+
 get_all_test() ->
+    test_helper:clear_persistent_term(),
+
     ok = dotenv_config:init(
         parser_module_sample,
         ["./test/data/init_test_part_1.env", "./test/data/init_test_part_2.env"]
@@ -60,6 +80,8 @@ get_all_test() ->
     ?assertEqual(Expected, Actual).
 
 env_variable_replaces_value_from_dotenv_test() ->
+    test_helper:clear_persistent_term(),
+
     SetEnvVarName = <<"VALUE_TO_OVERRIDE">>,
     SetEnvVarValue = <<"override_from_env_variables">>,
     os:putenv(binary_to_list(SetEnvVarName), binary_to_list(SetEnvVarValue)),
@@ -68,5 +90,7 @@ env_variable_replaces_value_from_dotenv_test() ->
         parser_test_env_vars_supremacy,
         ["./test/data/test_env_vars_supremacy.env"]
     ),
-    ?assertEqual({ok, <<"override_from_env_variables">>}, dotenv_config:get(<<"VALUE_TO_OVERRIDE">>)),
+    ?assertEqual(
+        {ok, <<"override_from_env_variables">>}, dotenv_config:get(<<"VALUE_TO_OVERRIDE">>)
+    ),
     ?assertEqual({ok, 8080}, dotenv_config:get(<<"PORT">>)).
