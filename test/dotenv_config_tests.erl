@@ -9,17 +9,17 @@ init_test() ->
         parser_module_sample,
         ["./test/data/init_test_part_1.env", "./test/data/init_test_part_2.env"]
     ),
-    ?assertEqual({ok, <<"client_id_value">>}, dotenv_config:get(<<"CLIENT_ID">>)),
-    ?assertEqual({ok, 8080}, dotenv_config:get(<<"PORT">>)),
-    ?assertEqual({ok, true}, dotenv_config:get(<<"DEBUG">>)),
-    ?assertEqual({ok, [<<"name1">>, <<"name2">>]}, dotenv_config:get(<<"NAMES">>)),
-    ?assertEqual({ok, debug}, dotenv_config:get(<<"LOG_LEVEL">>)),
-    ?assertEqual({ok, dotenv_config}, dotenv_config:get(<<"CALLBACK_MODULE">>)),
-    ?assertEqual({ok, "abc"}, dotenv_config:get(<<"CHARLIST">>)),
-    ?assertEqual({ok, <<"allowlist">>}, dotenv_config:get(<<"SOME_LIST_MODE">>)),
-    ?assertEqual({ok, <<"infinity">>}, dotenv_config:get(<<"SOME_CALL_TIMEOUT">>)),
-    ?assertEqual({ok, 5}, dotenv_config:get(<<"ANOTHER_CALL_TIMEOUT">>)),
-    ?assertEqual({ok, <<"im_a_complex_type_42">>}, dotenv_config:get(<<"SOME_COMPLEX_TYPE">>)),
+    ?assertEqual({ok, <<"client_id_value">>}, dotenv_config:fetch(<<"CLIENT_ID">>)),
+    ?assertEqual({ok, 8080}, dotenv_config:fetch(<<"PORT">>)),
+    ?assertEqual({ok, true}, dotenv_config:fetch(<<"DEBUG">>)),
+    ?assertEqual({ok, [<<"name1">>, <<"name2">>]}, dotenv_config:fetch(<<"NAMES">>)),
+    ?assertEqual({ok, debug}, dotenv_config:fetch(<<"LOG_LEVEL">>)),
+    ?assertEqual({ok, dotenv_config}, dotenv_config:fetch(<<"CALLBACK_MODULE">>)),
+    ?assertEqual({ok, "abc"}, dotenv_config:fetch(<<"CHARLIST">>)),
+    ?assertEqual({ok, <<"allowlist">>}, dotenv_config:fetch(<<"SOME_LIST_MODE">>)),
+    ?assertEqual({ok, <<"infinity">>}, dotenv_config:fetch(<<"SOME_CALL_TIMEOUT">>)),
+    ?assertEqual({ok, 5}, dotenv_config:fetch(<<"ANOTHER_CALL_TIMEOUT">>)),
+    ?assertEqual({ok, <<"im_a_complex_type_42">>}, dotenv_config:fetch(<<"SOME_COMPLEX_TYPE">>)),
     ?assertEqual(
         {ok, #{
             <<"key1">> => <<"value1">>,
@@ -29,7 +29,7 @@ init_test() ->
             <<"key5">> => #{<<"key6">> => <<"value6">>},
             <<"key7">> => null
         }},
-        dotenv_config:get(<<"JSON_OBJECT">>)
+        dotenv_config:fetch(<<"JSON_OBJECT">>)
     ).
 
 init_multiline_test() ->
@@ -40,11 +40,11 @@ init_multiline_test() ->
         ["./test/data/init_test_multiline.env"]
     ),
     ?assertEqual(
-        {ok, <<"singleline_value">>},
+        <<"singleline_value">>,
         dotenv_config:get(<<"SINGLELINE">>)
     ),
     ?assertEqual(
-        {ok, <<"line1\n  line2\nline3    line4">>},
+        <<"line1\n  line2\nline3    line4">>,
         dotenv_config:get(<<"MULTILINE">>)
     ).
 
@@ -91,6 +91,6 @@ env_variable_replaces_value_from_dotenv_test() ->
         ["./test/data/test_env_vars_supremacy.env"]
     ),
     ?assertEqual(
-        {ok, <<"override_from_env_variables">>}, dotenv_config:get(<<"VALUE_TO_OVERRIDE">>)
+        <<"override_from_env_variables">>, dotenv_config:get(<<"VALUE_TO_OVERRIDE">>)
     ),
-    ?assertEqual({ok, 8080}, dotenv_config:get(<<"PORT">>)).
+    ?assertEqual(8080, dotenv_config:get(<<"PORT">>)).

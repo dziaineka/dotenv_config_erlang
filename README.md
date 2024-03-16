@@ -16,7 +16,8 @@ dotenv_config:init(parser_module, ["path/to/.env"]).
 Get the config value:
 
 ```erlang
-dotenv_config:get(<<"CLIENT_ID">>).
+<<"some_client_id">> = dotenv_config:get(<<"CLIENT_ID">>).
+{ok, <<"some_client_id">>} = dotenv_config:fetch(<<"CLIENT_ID">>).
 ```
 
 Set the config value:

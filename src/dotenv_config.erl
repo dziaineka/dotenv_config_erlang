@@ -2,11 +2,12 @@
 
 -include("dotenv_config.hrl").
 
--export([init/2, get/1, set/2, get_all/0]).
+-export([init/2, get/1, fetch/1, set/2, get_all/0]).
 -export_type([config_item_name/0, config_item_value/0, parser/0, parsed_config/0]).
 
 -ignore_xref({init, 2}).
 -ignore_xref({get, 1}).
+-ignore_xref({fetch, 1}).
 -ignore_xref({set, 2}).
 -ignore_xref({get_all, 0}).
 
@@ -43,11 +44,27 @@ init(Module, FileNames) ->
 
 %%------------------------------------------------------------------------------
 %% @doc get/1
+%% Get configuration item from the persistent term storage. But if it's not found
+%% raise an exception.
+%% @end
+%%------------------------------------------------------------------------------
+-spec get(config_item_name()) -> config_item_value().
+get(ConfigItemName) ->
+    case dotenv_config_storage:get(ConfigItemName) of
+        {ok, ConfigItemValue} ->
+            ConfigItemValue;
+        {error, not_found} ->
+            error({config_item_not_found, ConfigItemName})
+    end.
+
+%%------------------------------------------------------------------------------
+%% @doc fetch/1
 %% Get configuration item from the persistent term storage.
 %% @end
 %%------------------------------------------------------------------------------
--spec get(config_item_name()) -> {ok, config_item_value()} | {error, not_found}.
-get(ConfigItemName) ->
+-spec fetch(config_item_name()) -> {ok, config_item_value()} | {error, not_found}.
+
+fetch(ConfigItemName) ->
     dotenv_config_storage:get(ConfigItemName).
 
 %%------------------------------------------------------------------------------
