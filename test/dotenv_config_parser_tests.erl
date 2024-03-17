@@ -71,5 +71,17 @@ is_value_already_stored_test() ->
 parse_config_item_test() ->
     ConfigItemRawValue = <<"123">>,
     ConfigItemType = int,
-    {ok, Value} = dotenv_config_parser:parse_config_item(ConfigItemRawValue, ConfigItemType),
+    {ok, Value} = dotenv_config_parser:parse_config_item(ConfigItemRawValue, #{}, ConfigItemType),
     ?assertEqual(123, Value).
+
+parse_by_function_test() ->
+    ConfigItemRawValue = <<"123">>,
+    RawParsedConfig = #{<<"KEY2">> => <<"456">>},
+    ConfigItemType = fun(ConfigItemRawValue1, RawParsedConfig1) ->
+        Key2 = maps:get(<<"KEY2">>, RawParsedConfig1),
+        list_to_integer(binary_to_list(ConfigItemRawValue1) ++ binary_to_list(Key2))
+    end,
+    {ok, Value} = dotenv_config_parser:parse_config_item(
+        ConfigItemRawValue, RawParsedConfig, ConfigItemType
+    ),
+    ?assertEqual(123456, Value).

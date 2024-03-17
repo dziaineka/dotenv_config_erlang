@@ -88,7 +88,7 @@ parse_config(Config, Module) ->
                     ParsedConfigAcc;
                 ConfigItemRawValue ->
                     ConfigItemRawValue1 = maybe_trim_quotes(ConfigItemRawValue),
-                    case parse_config_item(ConfigItemRawValue1, Parser) of
+                    case parse_config_item(ConfigItemRawValue1, Config, Parser) of
                         {ok, ConfigItemValue} ->
                             [{ConfigItemName, ConfigItemValue} | ParsedConfigAcc];
                         error ->
@@ -153,18 +153,18 @@ is_value_already_stored(ConfigItemName) ->
             true
     end.
 
--spec parse_config_item(config_item_raw_value(), config_item_type()) ->
+-spec parse_config_item(config_item_raw_value(), parsed_config_raw(), config_item_type()) ->
     {ok, config_item_value()} | error.
-parse_config_item(ConfigItemRawValue, str) ->
+parse_config_item(ConfigItemRawValue, _ConfigRaw, str) ->
     {ok, ConfigItemRawValue};
-parse_config_item(ConfigItemRawValue, int) ->
+parse_config_item(ConfigItemRawValue, _ConfigRaw, int) ->
     case string:to_integer(ConfigItemRawValue) of
         {Value, _Rest} when is_integer(Value) ->
             {ok, Value};
         _ ->
             error
     end;
-parse_config_item(ConfigItemRawValue, bool) ->
+parse_config_item(ConfigItemRawValue, _ConfigRaw, bool) ->
     try binary_to_existing_atom(ConfigItemRawValue) of
         true -> {ok, true};
         false -> {ok, false}
@@ -172,7 +172,7 @@ parse_config_item(ConfigItemRawValue, bool) ->
         _:_ ->
             error
     end;
-parse_config_item(ConfigItemRawValue, json) ->
+parse_config_item(ConfigItemRawValue, _ConfigRaw, json) ->
     try jiffy:decode(ConfigItemRawValue, [return_maps]) of
         JsonValue ->
             {ok, JsonValue}
@@ -180,7 +180,7 @@ parse_config_item(ConfigItemRawValue, json) ->
         _:_ ->
             error
     end;
-parse_config_item(ConfigItemRawValue, atom) ->
+parse_config_item(ConfigItemRawValue, _ConfigRaw, atom) ->
     try binary_to_atom(ConfigItemRawValue) of
         AtomValue ->
             {ok, AtomValue}
@@ -188,7 +188,7 @@ parse_config_item(ConfigItemRawValue, atom) ->
         _:_ ->
             error
     end;
-parse_config_item(ConfigItemRawValue, module) ->
+parse_config_item(ConfigItemRawValue, _ConfigRaw, module) ->
     try binary_to_existing_atom(ConfigItemRawValue) of
         ModuleValue ->
             case code:ensure_loaded(ModuleValue) of
@@ -201,24 +201,34 @@ parse_config_item(ConfigItemRawValue, module) ->
         _:_ ->
             error
     end;
-parse_config_item(ConfigItemRawValue, charlist) ->
+parse_config_item(ConfigItemRawValue, _ConfigRaw, charlist) ->
     {ok, binary_to_list(ConfigItemRawValue)};
-parse_config_item(ConfigItemRawValue, [Type | Rest]) ->
+parse_config_item(ConfigItemRawValue, ConfigRaw, [Type | Rest]) ->
     case Type of
         {exact, ExactValue} when ExactValue =:= ConfigItemRawValue ->
             {ok, ExactValue};
         SingleType when is_atom(SingleType) ->
-            parse_config_item(ConfigItemRawValue, SingleType);
+            parse_config_item(ConfigItemRawValue, ConfigRaw, SingleType);
         {exact, _} ->
-            parse_config_item(ConfigItemRawValue, Rest)
+            parse_config_item(ConfigItemRawValue, ConfigRaw, Rest)
     end;
-parse_config_item(ConfigItemRawValue, ConvertFunction) when is_function(ConvertFunction) ->
-    try ConvertFunction(ConfigItemRawValue) of
+parse_config_item(ConfigItemRawValue, ConfigRaw, ConvertFunction) when
+    is_function(ConvertFunction)
+->
+    FunctionToRun =
+        case proplists:get_value(arity, erlang:fun_info(ConvertFunction)) of
+            1 ->
+                fun() -> ConvertFunction(ConfigItemRawValue) end;
+            2 ->
+                fun() -> ConvertFunction(ConfigItemRawValue, ConfigRaw) end
+        end,
+
+    try FunctionToRun() of
         ConfigItemValue ->
             {ok, ConfigItemValue}
     catch
         _:_ ->
             error
     end;
-parse_config_item(_, _) ->
+parse_config_item(_, _, _) ->
     error.
