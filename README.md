@@ -4,7 +4,7 @@ Erlang/Elixir apps config based on environment variables and .env files
 
 ## Usage
 
-At the start of your application, load the .env files (later files will overwrite the previous ones values).
+At the start of your application, load the .env files (later files will overwrite the previous ones values). Environment variables will overwrite the .env files values.
 
 ```erlang
 dotenv_config:init(parser_module, ["path/to/.env"]).
