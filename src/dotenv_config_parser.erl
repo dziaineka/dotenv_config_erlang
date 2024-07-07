@@ -9,7 +9,7 @@
 -endif.
 
 -export([parse_file/1, parse_config/2]).
--export_type([parsed_config/0, parsed_config_raw/0]).
+-export_type([parser/0, parsed_config/0, parsed_config_raw/0]).
 
 -spec parse_file(file:name_all()) -> {ok, parsed_config_raw()} | {error, any()}.
 parse_file(FileName) ->
