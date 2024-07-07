@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         otp: ['24.3.4.15', '25.3.2.9', '26.2.2']
-        rebar: ['3.22.1']
+        rebar: ['3.23.0']
     steps:
     - uses: actions/checkout@v2
     - uses: erlef/setup-beam@v1
