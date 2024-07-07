@@ -25,3 +25,7 @@ docs:
 
 publish:
 	rebar3 hex publish --repo hexpm
+
+clean_caches:
+	rm -rf _build
+	rm -rf ~/.cache/rebar3
