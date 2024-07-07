@@ -2,10 +2,11 @@
 
 -include("dotenv_config.hrl").
 
--export([init/2, get/1, fetch/1, set/2, get_all/0]).
+-export([init/2, stop/0, get/1, fetch/1, set/2, get_all/0]).
 -export_type([config_item_name/0, config_item_value/0, parser/0, parsed_config/0]).
 
 -ignore_xref({init, 2}).
+-ignore_xref({stop, 0}).
 -ignore_xref({get, 1}).
 -ignore_xref({fetch, 1}).
 -ignore_xref({set, 2}).
@@ -84,3 +85,12 @@ set(ConfigItemName, ConfigItemValue) ->
 -spec get_all() -> parsed_config().
 get_all() ->
     dotenv_config_storage:get_all().
+
+%%------------------------------------------------------------------------------
+%% @doc stop/0
+%% Stop config storage and delete all stored configuration.
+%% @end
+%%------------------------------------------------------------------------------
+-spec stop() -> ok.
+stop() ->
+    dotenv_config_storage:clean().

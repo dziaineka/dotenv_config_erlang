@@ -6,7 +6,7 @@
 -compile(export_all).
 -endif.
 
--export([store/1, get/1, set/2, get_all/0]).
+-export([store/1, get/1, set/2, get_all/0, clean/0]).
 -export_type([config_item_name/0, config_item_value/0, parsed_config/0]).
 
 -spec store(parsed_config()) -> ok.
@@ -40,6 +40,19 @@ get_all() ->
                 {true, {Key, Value}};
             (_) ->
                 false
+        end,
+        AllItems
+    ).
+
+-spec clean() -> ok.
+clean() ->
+    AllItems = persistent_term:get(),
+    lists:foreach(
+        fun
+            ({{?MODULE, Key}, _Value}) ->
+                persistent_term:erase({?MODULE, Key});
+            (_) ->
+                skip
         end,
         AllItems
     ).
