@@ -5,16 +5,16 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.32.2">
-    <meta name="project" content="dotenv_config v2.2.0">
+    <meta name="project" content="dotenv_config v2.3.0">
 
 
-    <title>dotenv_config — dotenv_config v2.2.0</title>
+    <title>dotenv_config — dotenv_config v2.3.0</title>
     <link rel="stylesheet" href="dist/html-erlang-EBZIIHAS.css" />
 
 
     <script src="dist/handlebars.runtime-NWIB6V2M.js"></script>
     <script src="dist/handlebars.templates-K7URE6B4.js"></script>
-    <script src="dist/sidebar_items-3FEDEB12.js"></script>
+    <script src="dist/sidebar_items-03EDA54B.js"></script>
     <script src="docs_config.js"></script>
     <script async src="dist/html-BHYOTRCH.js"></script>
 
@@ -51,7 +51,7 @@
 dotenv_config
         </a>
         <div class="sidebar-projectVersion" translate="no">
-          v2.2.0
+          v2.3.0
         </div>
       </div>
     </div>
@@ -113,13 +113,13 @@ Pages
 <div id="top-content">
   <h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/src/dotenv_config.erl#L1" title="View Source" class="icon-action" rel="help">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/src/dotenv_config.erl#L1" title="View Source" class="icon-action" rel="help">
         <i class="ri-code-s-slash-line" aria-hidden="true"></i>
         <span class="sr-only">View Source</span>
       </a>
 
     <span translate="no">dotenv_config</span> 
-    <small class="app-vsn" translate="no">(dotenv_config v2.2.0)</small>
+    <small class="app-vsn" translate="no">(dotenv_config v2.3.0)</small>
 
   </h1>
 
@@ -248,11 +248,21 @@ Pages
 
     <div class="summary-row">
       <div class="summary-signature">
+        <a href="#init/1" data-no-tooltip translate="no">init(Module)</a>
+
+      </div>
+
+        <div class="summary-synopsis"><p>init/2 Load configuration from environment variables and store it in the persistent term storage.</p></div>
+
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-signature">
         <a href="#init/2" data-no-tooltip translate="no">init(Module, FileNames)</a>
 
       </div>
 
-        <div class="summary-synopsis">init/2 Load configuration from environment variables and override it by provided .env files (if duplicate last provided file wins) and store it in the persistent term storage. Parameters: Module - module which will be used to parse the configuration (see readme for details) FileNames - list of names of the files to load configuration from Returns: ok - if configuration was successfully loaded and stored {error, Reason} - if there was an error during loading or storing</div>
+        <div class="summary-synopsis">init/2 Load configuration from .env files and override it by environment variables (if duplicate last read place wins) and store it in the persistent term storage. Parameters: Module - module which will be used to parse the configuration (see readme for details) FileNames - list of names of the files to load configuration from Returns: ok - if configuration was successfully loaded and stored {error, Reason} - if there was an error during loading or storing</div>
 
     </div>
 
@@ -298,7 +308,7 @@ Pages
     </a>
     <h1 class="signature" translate="no">config_item_name/0</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L1" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L1" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -326,7 +336,7 @@ Pages
     </a>
     <h1 class="signature" translate="no">config_item_raw_value/0</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L2" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L2" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -354,7 +364,7 @@ Pages
     </a>
     <h1 class="signature" translate="no">config_item_type/0</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L11" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L11" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -383,7 +393,7 @@ Pages
     </a>
     <h1 class="signature" translate="no">config_item_value/0</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L3" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L3" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -411,7 +421,7 @@ Pages
     </a>
     <h1 class="signature" translate="no">convert_function/0</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L9" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L9" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -439,7 +449,7 @@ Pages
     </a>
     <h1 class="signature" translate="no">exact_value/0</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L8" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L8" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -467,7 +477,7 @@ Pages
     </a>
     <h1 class="signature" translate="no">parsed_config/0</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L17" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L17" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -495,7 +505,7 @@ Pages
     </a>
     <h1 class="signature" translate="no">parser/0</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L5" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L5" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -523,7 +533,7 @@ Pages
     </a>
     <h1 class="signature" translate="no">simple_config_type/0</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L7" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/_build/docs/lib/dotenv_config/include/dotenv_config.hrl#L7" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -563,7 +573,7 @@ Pages
     </a>
     <h1 class="signature" translate="no">fetch(ConfigItemName)</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/src/dotenv_config.erl#L68" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/src/dotenv_config.erl#L94" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -591,7 +601,7 @@ fetch/1 Get configuration item from the persistent term storage.
     </a>
     <h1 class="signature" translate="no">get(ConfigItemName)</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/src/dotenv_config.erl#L53" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/src/dotenv_config.erl#L79" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -619,7 +629,7 @@ get/1 Get configuration item from the persistent term storage. But if it's not f
     </a>
     <h1 class="signature" translate="no">get_all()</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/src/dotenv_config.erl#L86" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/src/dotenv_config.erl#L112" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -638,6 +648,34 @@ get/1 Get configuration item from the persistent term storage. But if it's not f
 get_all/0 Get all configuration items from the persistent term storage.
   </section>
 </section>
+<section class="detail" id="init/1">
+
+  <div class="detail-header">
+    <a href="#init/1" class="detail-link" data-no-tooltip title="Link to this function">
+      <i class="ri-link-m" aria-hidden="true"></i>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature" translate="no">init(Module)</h1>
+
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/src/dotenv_config.erl#L33" class="icon-action" rel="help" title="View Source">
+       <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+       <span class="sr-only">View Source</span>
+     </a>
+
+
+  </div>
+
+  <section class="docstring">
+
+      <div class="specs">
+
+          <pre translate="no"><span class="attribute">-spec</span> init(<a href="https://www.erlang.org/doc/man/erlang.html#type-module">module</a>()) -> ok.</pre>
+
+      </div>
+
+<p>init/2 Load configuration from environment variables and store it in the persistent term storage.</p><p>You can set DOTENV_CONFIG_ENV_FILES environment variable to list of files to load configuration from (comma separated).</p><p>Environment variables have higher priority than .env files.</p>Parameters: Module - module which will be used to parse the configuration (see readme for details) Returns: ok - if configuration was successfully loaded and stored {error, Reason} - if there was an error during loading or storing
+  </section>
+</section>
 <section class="detail" id="init/2">
 
   <div class="detail-header">
@@ -647,7 +685,7 @@ get_all/0 Get all configuration items from the persistent term storage.
     </a>
     <h1 class="signature" translate="no">init(Module, FileNames)</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/src/dotenv_config.erl#L28" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/src/dotenv_config.erl#L54" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -663,7 +701,7 @@ get_all/0 Get all configuration items from the persistent term storage.
 
       </div>
 
-init/2 Load configuration from environment variables and override it by provided .env files (if duplicate last provided file wins) and store it in the persistent term storage. Parameters: Module - module which will be used to parse the configuration (see readme for details) FileNames - list of names of the files to load configuration from Returns: ok - if configuration was successfully loaded and stored {error, Reason} - if there was an error during loading or storing
+init/2 Load configuration from .env files and override it by environment variables (if duplicate last read place wins) and store it in the persistent term storage. Parameters: Module - module which will be used to parse the configuration (see readme for details) FileNames - list of names of the files to load configuration from Returns: ok - if configuration was successfully loaded and stored {error, Reason} - if there was an error during loading or storing
   </section>
 </section>
 <section class="detail" id="set/2">
@@ -675,7 +713,7 @@ init/2 Load configuration from environment variables and override it by provided
     </a>
     <h1 class="signature" translate="no">set(ConfigItemName, ConfigItemValue)</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/src/dotenv_config.erl#L77" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/src/dotenv_config.erl#L103" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -703,7 +741,7 @@ set/2 Set configuration item in the persistent term storage.
     </a>
     <h1 class="signature" translate="no">stop()</h1>
 
-      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.2.0/src/dotenv_config.erl#L95" class="icon-action" rel="help" title="View Source">
+      <a href="https://github.com/dziaineka/dotenv_config_erlang/blob/v2.3.0/src/dotenv_config.erl#L121" class="icon-action" rel="help" title="View Source">
        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
        <span class="sr-only">View Source</span>
      </a>
@@ -730,9 +768,9 @@ stop/0 Stop config storage and delete all stored configuration.
       <p>
 
           <span class="line">
-            <a href="https://hex.pm/packages/dotenv_config/2.2.0" class="footer-hex-package">Hex Package</a>
+            <a href="https://hex.pm/packages/dotenv_config/2.3.0" class="footer-hex-package">Hex Package</a>
 
-            <a href="https://preview.hex.pm/preview/dotenv_config/2.2.0">Hex Preview</a>
+            <a href="https://preview.hex.pm/preview/dotenv_config/2.3.0">Hex Preview</a>
 
           </span>
 
