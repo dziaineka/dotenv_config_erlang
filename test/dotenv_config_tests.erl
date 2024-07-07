@@ -2,13 +2,42 @@
 
 -include_lib("eunit/include/eunit.hrl").
 
-init_test() ->
+init_from_files_list_test() ->
     test_helper:clear_persistent_term(),
 
     ok = dotenv_config:init(
         parser_module_sample,
         ["./test/data/init_test_part_1.env", "./test/data/init_test_part_2.env"]
     ),
+    ?assertEqual({ok, <<"client_id_value">>}, dotenv_config:fetch(<<"CLIENT_ID">>)),
+    ?assertEqual({ok, 8080}, dotenv_config:fetch(<<"PORT">>)),
+    ?assertEqual({ok, true}, dotenv_config:fetch(<<"DEBUG">>)),
+    ?assertEqual({ok, [<<"name1">>, <<"name2">>]}, dotenv_config:fetch(<<"NAMES">>)),
+    ?assertEqual({ok, debug}, dotenv_config:fetch(<<"LOG_LEVEL">>)),
+    ?assertEqual({ok, dotenv_config}, dotenv_config:fetch(<<"CALLBACK_MODULE">>)),
+    ?assertEqual({ok, "abc"}, dotenv_config:fetch(<<"CHARLIST">>)),
+    ?assertEqual({ok, <<"allowlist">>}, dotenv_config:fetch(<<"SOME_LIST_MODE">>)),
+    ?assertEqual({ok, <<"infinity">>}, dotenv_config:fetch(<<"SOME_CALL_TIMEOUT">>)),
+    ?assertEqual({ok, 5}, dotenv_config:fetch(<<"ANOTHER_CALL_TIMEOUT">>)),
+    ?assertEqual({ok, <<"im_a_complex_type_42">>}, dotenv_config:fetch(<<"SOME_COMPLEX_TYPE">>)),
+    ?assertEqual(
+        {ok, #{
+            <<"key1">> => <<"value1">>,
+            <<"key2">> => true,
+            <<"key3">> => 123,
+            <<"key4">> => [1, 2, 3],
+            <<"key5">> => #{<<"key6">> => <<"value6">>},
+            <<"key7">> => null
+        }},
+        dotenv_config:fetch(<<"JSON_OBJECT">>)
+    ).
+
+init_from_env_files_test() ->
+    test_helper:clear_persistent_term(),
+
+    os:putenv("DOTENV_CONFIG_ENV_FILES", "./test/data/init_test_part_1.env,./test/data/init_test_part_2.env"),
+
+    ok = dotenv_config:init(parser_module_sample),
     ?assertEqual({ok, <<"client_id_value">>}, dotenv_config:fetch(<<"CLIENT_ID">>)),
     ?assertEqual({ok, 8080}, dotenv_config:fetch(<<"PORT">>)),
     ?assertEqual({ok, true}, dotenv_config:fetch(<<"DEBUG">>)),

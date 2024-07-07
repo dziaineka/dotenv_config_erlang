@@ -2,9 +2,10 @@
 
 -include("dotenv_config.hrl").
 
--export([init/2, stop/0, get/1, fetch/1, set/2, get_all/0]).
+-export([init/1, init/2, stop/0, get/1, fetch/1, set/2, get_all/0]).
 -export_type([config_item_name/0, config_item_value/0, parser/0, parsed_config/0]).
 
+-ignore_xref({init, 1}).
 -ignore_xref({init, 2}).
 -ignore_xref({stop, 0}).
 -ignore_xref({get, 1}).
@@ -14,8 +15,33 @@
 
 %%------------------------------------------------------------------------------
 %% @doc init/2
-%% Load configuration from environment variables and override it by provided .env files
-%% (if duplicate last provided file wins) and store it in the persistent term storage.
+%% Load configuration from environment variables and store it in the persistent term storage.
+%%
+%% You can set DOTENV_CONFIG_ENV_FILES environment variable to list of files to load
+%% configuration from (comma separated).
+%%
+%% Environment variables have higher priority than .env files.
+%%
+%% Parameters:
+%%   Module - module which will be used to parse the configuration (see readme for details)
+%% Returns:
+%%   ok - if configuration was successfully loaded and stored
+%%   {error, Reason} - if there was an error during loading or storing
+%% @end
+%%------------------------------------------------------------------------------
+-spec init(module()) -> ok.
+init(Module) ->
+    EnvFiles =
+        case os:getenv("DOTENV_CONFIG_ENV_FILES") of
+            false -> [];
+            EnvFilesStr -> string:tokens(EnvFilesStr, ",")
+        end,
+    init(Module, EnvFiles).
+
+%%------------------------------------------------------------------------------
+%% @doc init/2
+%% Load configuration from .env files and override it by environment variables
+%% (if duplicate last read place wins) and store it in the persistent term storage.
 %% Parameters:
 %%   Module - module which will be used to parse the configuration (see readme for details)
 %%   FileNames - list of names of the files to load configuration from

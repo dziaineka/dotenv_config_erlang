@@ -10,6 +10,14 @@ At the start of your application, load the .env files (later files will overwrit
 dotenv_config:init(parser_module, ["path/to/.env"]).
 ```
 
+Library can also load the .env files from the environment variable `DOTENV_CONFIG_ENV_FILES`. Hence you need to provide module name only.
+
+```erlang
+dotenv_config:init(parser_module).
+```
+
+If .env files are not provided, the library will load the environment variables only.
+
 `parser_module` is a module that implements the `dotenv_config_parser` behaviour. It should have a `get_parser/0` function that returns a list of
 `{ConfigItemName, ConfigItemType}` tuples. See the `parser_module` example below.
 
