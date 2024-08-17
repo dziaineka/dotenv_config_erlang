@@ -3,7 +3,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 init_from_files_list_test() ->
-    test_helper:clear_persistent_term(),
+    dotenv_config:stop(),
 
     ok = dotenv_config:init(
         parser_module_sample,
@@ -33,7 +33,7 @@ init_from_files_list_test() ->
     ).
 
 init_from_env_files_test() ->
-    test_helper:clear_persistent_term(),
+    dotenv_config:stop(),
 
     os:putenv("DOTENV_CONFIG_ENV_FILES", "./test/data/init_test_part_1.env,./test/data/init_test_part_2.env"),
 
@@ -62,7 +62,7 @@ init_from_env_files_test() ->
     ).
 
 stop_test() ->
-    test_helper:clear_persistent_term(),
+    dotenv_config:stop(),
 
     ok = dotenv_config:init(
         parser_module_sample,
@@ -106,7 +106,7 @@ stop_test() ->
     ?assertEqual({error, not_found}, dotenv_config:fetch(<<"JSON_OBJECT">>)).
 
 init_multiline_test() ->
-    test_helper:clear_persistent_term(),
+    dotenv_config:stop(),
 
     ok = dotenv_config:init(
         parser_module_multiline,
@@ -122,7 +122,7 @@ init_multiline_test() ->
     ).
 
 get_all_test() ->
-    test_helper:clear_persistent_term(),
+    dotenv_config:stop(),
 
     ok = dotenv_config:init(
         parser_module_sample,
@@ -153,7 +153,7 @@ get_all_test() ->
     ?assertEqual(Expected, Actual).
 
 env_variable_replaces_value_from_dotenv_test() ->
-    test_helper:clear_persistent_term(),
+    dotenv_config:stop(),
 
     SetEnvVarName = <<"VALUE_TO_OVERRIDE">>,
     SetEnvVarValue = <<"override_from_env_variables">>,

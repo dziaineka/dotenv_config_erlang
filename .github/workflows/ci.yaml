@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        otp: ['24.3.4.15', '25.3.2.9', '26.2.2']
+        otp: ['24.3.4.15', '25.3.2.9', '26.2.2', '27.0.1']
         rebar: ['3.23.0']
     steps:
     - uses: actions/checkout@v2
